@@ -137,9 +137,14 @@ func fynePackageHost(ctx Context) error {
 		"package",
 		"-os", ctx.OS,
 		"-name", ctx.Name,
-		"-icon", volume.JoinPathContainer(ctx.TmpDirHost(), ctx.ID, icon.Default),
 		"-appBuild", ctx.AppBuild,
 		"-appVersion", ctx.AppVersion,
+	}
+	
+	if ctx.OS == windowsOS {
+		args = append(args, "-icon", volume.JoinPathContainer(ctx.TmpDirHost(), ctx.ID, ctx.Name+".ico"))
+	} else {
+		args = append(args, "-icon", volume.JoinPathContainer(ctx.TmpDirHost(), ctx.ID, icon.Default))
 	}
 
 	// add appID to command, if any
